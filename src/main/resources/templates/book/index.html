@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <!--它首先为移动设备优化代码，然后用CSS媒体查询来扩展组件。为了确保所有的设备的渲染和触摸效果，必须在网页的<head>区添加响应式的视图标签-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>书城</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">书城</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">主页<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/book/add">添加书籍</a>
+            </li>
+            <li class="nav-item dropdown">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        分类
+                    </button>
+                    <form method="post" action="/book/index">
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item dropdown-item-dad dropdown-tag" href="#" th:each="category,categoryStat:${categoryList}" th:text="${category.categoryName}"
+                               th:attr="data-id=${category.categoryId}">
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item dropdown-addTag" href="#" th:attr="data-parent_id='0'">添加分类</a>
+                        </div>
+                    </form>
+
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" method="get" action="/book/index" th:action="@{/book/index}">
+            <input class="form-control mr-sm-2" type="search" placeholder="请输入书名或作者名" aria-label="Search" name="keyword" th:value="${keyword}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+        </form>
+    </div>
+</nav>
+<!--书籍信息-->
+<div class="cardBox">
+    <div class="card" style="width: 18rem;" th:each="item:${bookPage?.page?.content}">
+            <img src="/img/weChat.jpg" th:src="@{/img/weChat.jpg}" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${item?.bookName}"></h5>
+                <p class="card-text" th:text="|作者：${item.writer}|"></p>
+                <!--自定义数据格式-->
+                <button type="button" class="btn btn-danger btn-font" th:data-delete="${item.bookId}">删除</button>
+                <a href="#" class="btn btn-info" role="button" arnameia-disabled="true" th:href="|@{/book/update/}${item.bookId}|">修改</a>
+                <button type="button" class="btn btn-success btn-font">阅读</button>
+            </div>
+        </div>
+</div>
+
+<nav aria-label="...">
+    <ul class="pagination pagination-lg">
+        <li class="page-item" th:classappend="${bookPage?.page?.isFirst() ? 'disabled':''}">
+            <a class="page-link" href="#" tabindex="-1" th:href="|?page=${bookPage?.page?.isFirst() ? 1 : bookPage?.currentPage - 1}&keyword=${keyword}|">上一页</a>
+        </li>
+        <li class="page-item" th:each="num:${bookPage?.pageNum()}"><a class="page-link" href="#" th:text="${num}" th:href="|?page=${num}&keyword=${keyword}|">1</a></li>
+        <li class="page-item" th:classappend="${bookPage?.page?.isLast()?'disabled':''}">
+            <a class="page-link" href="#" th:href="|?page=${bookPage?.page?.isLast() ? bookPage?.page?.totalPages : bookPage?.currentPage + 1}&keyword=${keyword}|">下一页</a>
+        </li>
+    </ul>
+</nav>
+
+
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>

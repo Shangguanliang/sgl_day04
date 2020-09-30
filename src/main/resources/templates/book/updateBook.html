@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>修改书籍</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/addBook.css">
+</head>
+<body>
+<form id="formText" action="/book/update" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="bookId" value="" th:value="${book.bookId}">
+    <div class="form-group">
+        <label for="exampleInputEmail1">书名</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="请输入书名" th:value="${book.bookName}" name="bookName">
+        <small id="emailHelp" class="form-text text-muted">别搞什么阴间名字</small>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">作者</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入作者" th:value="${book.writer}" name="writer">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">类别</label>
+        <select class="custom-select" name="categoryId">T
+            <option th:each="category,categoryList:${categoryList}"
+                    th:text="${category.categoryName}"
+                    th:value="${category.categoryId}"
+                    th:attr="data-id=${category.categoryId}"
+                    th:selected="${category.categoryId == book.categoryId}"></option>
+        </select>
+    </div>
+
+    <input type="submit" class="btn btn-primary"/>
+    <a class="nav-link" href="/book/index"><input type="button" class="btn btn-primary" value="返回首页"/></a>
+</form>
+
+
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

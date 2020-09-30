@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.dropdown-item-dad{
+    background-color: #fff !important;
+    color: black !important;
+}
+
+.cardBox{
+    padding: 1rem;
+    display: flex;
+}
+.card{
+    float: left;
+    margin: .2rem 3rem;
+}
+
+nav{
+    display: flex;
+    justify-content: center;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled),
+[type=submit]:not(:disabled), button:not(:disabled){
+    margin: 0 .6rem;
+}
